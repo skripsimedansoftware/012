@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="<?php echo base_url('assets/adminlte/') ?>bower_components/Ionicons/css/ionicons.min.css">
 	<link rel="stylesheet" href="<?php echo base_url('assets/adminlte/') ?>dist/css/AdminLTE.min.css">
 	<link rel="stylesheet" href="<?php echo base_url('assets/adminlte/') ?>plugins/iCheck/square/blue.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> -->
 	<style type="text/css">
 		.help-block.error {
 			color: red;
@@ -52,8 +52,8 @@
 
 		<!-- <a href="#">I forgot my password</a><br> -->
 		<br>
-		<a href="<?php echo base_url('admin/register') ?>" class="text-center"><i class="fa fa-users"></i> Mendaftar</a>
-		<a href="<?php echo base_url('admin/login') ?>" class="text-center pull-right"><i class="fa fa-sign-in"></i> Masuk</a>
+		<a href="<?php echo base_url('web/register') ?>" class="text-center"><i class="fa fa-users"></i> Mendaftar</a>
+		<a href="<?php echo base_url('web/login') ?>" class="text-center pull-right"><i class="fa fa-sign-in"></i> Masuk</a>
 
 	</div>
 </div>

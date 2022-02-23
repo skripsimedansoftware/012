@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Admin extends CI_Controller {
+class Pasien extends CI_Controller {
 
 	public function __construct()
 	{
@@ -108,30 +108,6 @@ class Admin extends CI_Controller {
 		}
 	}
 
-	public function is_owned_data($val, $str)
-	{
-		$str = explode('.', $str);
-		$data = $this->db->get('user', array($str[1] => $val));
-		if ($data->num_rows() >= 1)
-		{
-			if ($data->row()->id == $str[2])
-			{
-				return TRUE;
-			}
-			else
-			{
-				$this->form_validation->set_message('is_owned_data', lang('form_validation_is_unique'));
-				return FALSE;
-			}
-		}
-		else
-		{
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
 	public function logout()
 	{
 		session_destroy();
@@ -139,5 +115,5 @@ class Admin extends CI_Controller {
 	}
 }
 
-/* End of file Admin.php */
-/* Location: ./application/controllers/Admin.php */
+/* End of file Pasien.php */
+/* Location: ./application/controllers/Pasien.php */

@@ -69,8 +69,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div id="container">
 	<h1>Codeigniter Starter - Skripsi</h1>
 	<div id="body">
-		<p><a href="<?php echo base_url('admin') ?>">Login Here</a></p>
+		<p><a href="<?php echo base_url('web/login') ?>">Login Here</a></p>
 	</div>
 </div>
 </body>
+<script type="text/javascript" src="/sw.js"></script>
 </html>
