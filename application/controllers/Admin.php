@@ -391,7 +391,7 @@ class Admin extends CI_Controller {
 		$this->fpdf->SetTitle('Laporan Rekam Medis');
 		$this->fpdf->SetAuthor($this->config->item('app_name'));
 		$this->fpdf->AddPage();
-		$this->fpdf->SetFont('Arial','B',15);
+		$this->fpdf->SetFont('Arial','B', 15);
 		// Move to the right
 		$this->fpdf->Cell(80);
 		// Framed title
@@ -399,7 +399,7 @@ class Admin extends CI_Controller {
 		$this->fpdf->Cell(-30);
 		$this->fpdf->SetFont('Times', 'B', 16);
 		$this->fpdf->Cell(120, 10, 'LAPORAN - PASIEN RAWAT JALAN', 0, 0, 'C');
-		$this->fpdf->Ln(10);
+		$this->fpdf->Ln(8);
 		$this->fpdf->Cell(50);
 		$this->fpdf->SetFont('Times', 'B', 14);
 		$this->fpdf->Cell(120, 10, 'BADAN NARKOTIKA NASIONAL', 0, 0, 'C');
@@ -411,9 +411,9 @@ class Admin extends CI_Controller {
 		$this->fpdf->Cell(50);
 		$this->fpdf->SetFont('Times', '', 12);
 		$this->fpdf->Cell(120, 10, 'Alamat : Jl. Williem Iskandar Pasar V Barat I No. 1-A Medan Estate | Tel : (061) 800-3282', 0, 0, 'C');
-		$this->fpdf->Ln(10);
+		$this->fpdf->Ln(12);
 		$this->fpdf->Cell(188, 1, '', 1, 0, 'L');
-		$this->fpdf->Ln(10);
+		$this->fpdf->Ln(6);
 
 
 		$user = $this->user->read(array('id' => $id))->row();
