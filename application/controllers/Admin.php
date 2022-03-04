@@ -7,6 +7,7 @@ class Admin extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library('template', ['module' => 'admin']);
+		$this->load->library('FPDF/Fpdf');
 		if (empty($this->session->userdata($this->router->fetch_class())))
 		{
 			redirect(base_url('web/login'), 'refresh');
@@ -106,6 +107,353 @@ class Admin extends CI_Controller {
 				$this->template->load('profile', $data);
 			break;
 		}
+	}
+
+	public function dokter($option = 'view', $id = NULL)
+	{
+		switch ($option)
+		{
+			case 'add':
+				if ($this->input->method() == 'post')
+				{
+					$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+					$this->form_validation->set_rules('username', 'Nama Pengguna', 'trim|required');
+					$this->form_validation->set_rules('password', 'Kata Sandi', 'trim|required|min_length[5]');
+					$this->form_validation->set_rules('full_name', 'Nama Lengkap', 'trim|required');
+					$this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required|in_list[male,female]');
+					$this->form_validation->set_rules('status', 'Status Akun', 'trim|required|in_list[active,non-active]');
+
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array(
+							'role' => 'dokter',
+							'email' => $this->input->post('email'),
+							'username' => $this->input->post('username'),
+							'password' => sha1($this->input->post('password')),
+							'full_name' => $this->input->post('full_name'),
+							'gender' => $this->input->post('gender'),
+							'status' => $this->input->post('status')
+						);
+
+						$this->user->create($data);
+						$this->session->set_flashdata('data_query', 'Data dokter telah ditambahkan');
+						redirect(base_url($this->router->fetch_class().'/dokter'), 'refresh');
+					}
+					else
+					{
+						$this->template->load('dokter/add');
+					}
+				}
+				else
+				{
+					$this->template->load('dokter/add');
+				}
+			break;
+
+			case 'edit':
+				if ($this->input->method() == 'post')
+				{
+					$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+					$this->form_validation->set_rules('username', 'Nama Pengguna', 'trim|required');
+					$this->form_validation->set_rules('password', 'Kata Sandi', 'trim|min_length[5]');
+					$this->form_validation->set_rules('full_name', 'Nama Lengkap', 'trim|required');
+					$this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required|in_list[male,female]');
+
+					if ($this->form_validation->run() == TRUE)
+					{
+						$find = $this->user->read(array('id' => $id))->row();
+						$data = array(
+							'email' => $this->input->post_data('email', $find->email),
+							'username' => $this->input->post_data('username', $find->username),
+							'full_name' => $this->input->post_data('full_name', $find->full_name),
+							'gender' => $this->input->post_data('gender', $find->gender),
+							'status' => $this->input->post('status')
+						);
+
+						$data['password'] = (!empty($this->input->post('password')))?sha1($this->input->post('password')):$find->password;
+
+						$this->user->update($data, array('id' => $id));
+						$this->session->set_flashdata('data_query', 'Data dokter telah diperbaharui');
+						redirect(base_url($this->router->fetch_class().'/dokter'), 'refresh');
+					}
+					else
+					{
+						$data['data'] = $this->user->read(array('id' => $id))->row();
+						$this->template->load('dokter/edit', $data);
+					}
+				}
+				else
+				{
+					$data['data'] = $this->user->read(array('id' => $id))->row();
+					$this->template->load('dokter/edit', $data);
+				}
+			break;
+
+			case 'delete':
+				$this->user->delete(array('id' => $id));
+				$this->session->set_flashdata('data_query', 'Akun dokter telah dihapus');
+				redirect(base_url($this->router->fetch_class().'/dokter'), 'refresh');
+			break;
+
+			default:
+				if (!empty($id))
+				{
+					$data['data'] = $this->user->read(array('id' => $id))->row();
+					$this->template->load('dokter/view', $data);
+				}
+				else
+				{
+					$this->template->load('dokter/home');
+				}
+			break;
+		}
+	}
+
+	public function pasien($option = 'view', $id = NULL)
+	{
+		switch ($option)
+		{
+			case 'add':
+				if ($this->input->method() == 'post')
+				{
+					$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+					$this->form_validation->set_rules('username', 'Nama Pengguna', 'trim|required');
+					$this->form_validation->set_rules('password', 'Kata Sandi', 'trim|required|min_length[5]');
+					$this->form_validation->set_rules('full_name', 'Nama Lengkap', 'trim|required');
+					$this->form_validation->set_rules('age', 'Usia', 'trim|required');
+					$this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required|in_list[male,female]');
+					$this->form_validation->set_rules('blood', 'Golongan Darah', 'trim|required|in_list[A,B,AB,O,A+,B+,AB+,O+]');
+					$this->form_validation->set_rules('status', 'Status Akun', 'trim|required|in_list[active,non-active]');
+
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array(
+							'role' => 'pasien',
+							'email' => $this->input->post('email'),
+							'username' => $this->input->post('username'),
+							'password' => sha1($this->input->post('password')),
+							'full_name' => $this->input->post('full_name'),
+							'gender' => $this->input->post('gender'),
+							'age' => $this->input->post('age'),
+							'blood' => $this->input->post('blood'),
+							'status' => $this->input->post('status')
+						);
+
+						$this->user->create($data);
+						$this->session->set_flashdata('data_query', 'Data pasien telah ditambahkan');
+						redirect(base_url($this->router->fetch_class().'/pasien'), 'refresh');
+					}
+					else
+					{
+						$this->template->load('pasien/add');
+					}
+				}
+				else
+				{
+					$this->template->load('pasien/add');
+				}
+			break;
+
+			case 'edit':
+				if ($this->input->method() == 'post')
+				{
+					$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+					$this->form_validation->set_rules('username', 'Nama Pengguna', 'trim|required');
+					$this->form_validation->set_rules('password', 'Kata Sandi', 'trim|min_length[5]');
+					$this->form_validation->set_rules('full_name', 'Nama Lengkap', 'trim|required');
+					$this->form_validation->set_rules('age', 'Usia', 'trim|required');
+					$this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required|in_list[male,female]');
+					$this->form_validation->set_rules('blood', 'Golongan Darah', 'trim|required|in_list[A,B,AB,O,A+,B+,AB+,O+]');
+
+					if ($this->form_validation->run() == TRUE)
+					{
+						$find = $this->user->read(array('id' => $id))->row();
+						$data = array(
+							'email' => $this->input->post_data('email', $find->email),
+							'username' => $this->input->post_data('username', $find->username),
+							'full_name' => $this->input->post_data('full_name', $find->full_name),
+							'gender' => $this->input->post_data('gender', $find->gender),
+							'age' => $this->input->post_data('age', $find->age),
+							'blood' => $this->input->post_data('blood', $find->blood),
+							'photo' => NULL,
+							'status' => $this->input->post('status')
+						);
+
+						$data['password'] = (!empty($this->input->post('password')))?sha1($this->input->post('password')):$find->password;
+
+						$this->user->update($data, array('id' => $id));
+						$this->session->set_flashdata('data_query', 'Data pasien telah diperbaharui');
+						redirect(base_url($this->router->fetch_class().'/pasien'), 'refresh');
+					}
+					else
+					{
+						$data['data'] = $this->user->read(array('id' => $id))->row();
+						$this->template->load('pasien/edit', $data);
+					}
+				}
+				else
+				{
+					$data['data'] = $this->user->read(array('id' => $id))->row();
+					$this->template->load('pasien/edit', $data);
+				}
+			break;
+
+			case 'activate':
+				$this->user->update(array('status' => $this->input->get('status')), array('id' => $id));
+				$status = ($this->input->get('status') == 'active')?'aktif':'non-aktif';
+				$this->session->set_flashdata('data_query', 'Akun pasien telah '.$status);
+				redirect(base_url($this->router->fetch_class().'/pasien'), 'refresh');
+			break;
+
+			case 'delete':
+				$this->user->delete(array('id' => $id));
+				$this->session->set_flashdata('data_query', 'Akun pasien telah dihapus');
+				redirect(base_url($this->router->fetch_class().'/pasien'), 'refresh');
+			break;
+
+			default:
+				if (!empty($id))
+				{
+					$data['data'] = $this->user->read(array('id' => $id))->row();
+					$this->template->load('pasien/view', $data);
+				}
+				else
+				{
+					$this->template->load('pasien/home');
+				}
+			break;
+		}
+	}
+
+	public function jadwal()
+	{
+		$this->template->load('home');
+	}
+
+	public function WordWrap(&$text, $maxwidth)
+	{
+	    $text = trim($text);
+	    if ($text==='')
+	        return 0;
+	    $space = $this->GetStringWidth(' ');
+	    $lines = explode("\n", $text);
+	    $text = '';
+	    $count = 0;
+
+	    foreach ($lines as $line)
+	    {
+	        $words = preg_split('/ +/', $line);
+	        $width = 0;
+
+	        foreach ($words as $word)
+	        {
+	            $wordwidth = $this->GetStringWidth($word);
+	            if ($wordwidth > $maxwidth)
+	            {
+	                // Word is too long, we cut it
+	                for($i=0; $i<strlen($word); $i++)
+	                {
+	                    $wordwidth = $this->GetStringWidth(substr($word, $i, 1));
+	                    if($width + $wordwidth <= $maxwidth)
+	                    {
+	                        $width += $wordwidth;
+	                        $text .= substr($word, $i, 1);
+	                    }
+	                    else
+	                    {
+	                        $width = $wordwidth;
+	                        $text = rtrim($text)."\n".substr($word, $i, 1);
+	                        $count++;
+	                    }
+	                }
+	            }
+	            elseif($width + $wordwidth <= $maxwidth)
+	            {
+	                $width += $wordwidth + $space;
+	                $text .= $word.' ';
+	            }
+	            else
+	            {
+	                $width = $wordwidth + $space;
+	                $text = rtrim($text)."\n".$word.' ';
+	                $count++;
+	            }
+	        }
+	        $text = rtrim($text)."\n";
+	        $count++;
+	    }
+	    $text = rtrim($text);
+	    return $count;
+	}
+
+	public function print_report($data = 'pasien', $id = NULL)
+	{
+		$this->fpdf->SetTitle('Laporan Rekam Medis');
+		$this->fpdf->SetAuthor($this->config->item('app_name'));
+		$this->fpdf->AddPage();
+		$this->fpdf->SetFont('Arial','B',15);
+		// Move to the right
+		$this->fpdf->Cell(80);
+		// Framed title
+		$this->fpdf->Image(base_url('LOGO-BNN.png'), 10, 2, -440);
+		$this->fpdf->Cell(-30);
+		$this->fpdf->SetFont('Times', 'B', 16);
+		$this->fpdf->Cell(120, 10, 'LAPORAN - PASIEN RAWAT JALAN', 0, 0, 'C');
+		$this->fpdf->Ln(10);
+		$this->fpdf->Cell(50);
+		$this->fpdf->SetFont('Times', 'B', 14);
+		$this->fpdf->Cell(120, 10, 'BADAN NARKOTIKA NASIONAL', 0, 0, 'C');
+		$this->fpdf->Ln(6);
+		$this->fpdf->Cell(50);
+		$this->fpdf->SetFont('Times', 'IU', 12);
+		$this->fpdf->Cell(120, 10, 'Website : https://sumut.bnn.go.id', 0, 0, 'C');
+		$this->fpdf->Ln(6);
+		$this->fpdf->Cell(50);
+		$this->fpdf->SetFont('Times', '', 12);
+		$this->fpdf->Cell(120, 10, 'Alamat : Jl. Williem Iskandar Pasar V Barat I No. 1-A Medan Estate | Tel : (061) 800-3282', 0, 0, 'C');
+		$this->fpdf->Ln(10);
+		$this->fpdf->Cell(188, 1, '', 1, 0, 'L');
+		$this->fpdf->Ln(10);
+
+
+		$user = $this->user->read(array('id' => $id))->row();
+		$rekam_medis = $this->rekam_medis->read(array('pasien' => $id))->result();
+		$this->fpdf->SetFont('Times', 'BU', 14);
+		$this->fpdf->Cell(200, 10, 'INFORMASI PASIEN', 0, 0, 'L');
+		$this->fpdf->Ln(10);
+		$this->fpdf->SetFont('Times', '', 12);
+		$this->fpdf->Cell(60, 8, "\tNama Lengkap", 1, 0, 'L');
+		$this->fpdf->Cell(80, 8, $user->full_name, 1, 0, 'L');
+		$this->fpdf->Ln(8); // Line Break
+		$this->fpdf->Cell(60, 8, "\tJenis Kelamin", 1, 0, 'L');
+		$this->fpdf->Cell(80, 8, ($user->gender == 'male')?'Laki-laki':'Perempuan', 1, 0, 'L');
+		$this->fpdf->Ln(8); // Line Break
+		$this->fpdf->Cell(60, 8, "\tUsia", 1, 0, 'L');
+		$this->fpdf->Cell(80, 8, ($user->age > 0)?$user->age:'-', 1, 0, 'L');
+		$this->fpdf->Ln(8); // Line Break
+		$this->fpdf->Cell(60, 8, "\tGolongan Darah", 1, 0, 'L');
+		$this->fpdf->Cell(80, 8, $user->blood, 1, 0, 'L');
+		$this->fpdf->Ln(8); // Line Break
+		$this->fpdf->Cell(60, 8, "\tTanggal Mendaftar", 1, 0, 'L');
+		$this->fpdf->Cell(80, 8, nice_date($user->registration_time, 'd F Y | H:i A'), 1, 0, 'L');
+		$this->fpdf->Ln(20); // Line Break
+
+		foreach ($rekam_medis as $data)
+		{
+			$this->fpdf->Cell(20, 8, "\tTanggal", 0, 0, 'L');
+			$this->fpdf->Cell(80, 8, ': '.nice_date($data->tanggal, 'd F Y | H:i A'), 0, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+			$this->fpdf->Cell(20, 8, "\tKeluhan", 0, 0, 'L');
+			$this->fpdf->MultiCell(124, 8, ': '.$data->keluhan, 0, 'L');
+			$this->fpdf->Ln(0); // Line Break
+			$this->fpdf->Cell(20, 8, "\tDiagnosis", 0, 0, 'L');
+			$this->fpdf->MultiCell(124, 8, ': '.$data->diagnosis, 0, 'L');
+			$this->fpdf->Ln(2); // Line Break
+			$this->fpdf->Cell(188, 1, '', 1, 0, 'L');
+			$this->fpdf->Ln(2); // Line Break
+		}
+
+		$this->fpdf->Output();
 	}
 
 	public function is_owned_data($val, $str)

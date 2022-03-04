@@ -133,4 +133,4 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('email_confirm', 'user');
+$autoload['model'] = array('email_confirm', 'user', 'jadwal', 'rekam_medis');

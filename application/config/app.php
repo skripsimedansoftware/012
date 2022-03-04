@@ -6,7 +6,7 @@
  * @author Agung Dirgantara <agungmasda29@gmail.com>
  */
 
-$config['app_name'] = 'Skripsi';
+$config['app_name'] = 'Rekam Medis';
 $config['app_user'] = 'Agung Dirgantara';
 
 /* End of file app.php */

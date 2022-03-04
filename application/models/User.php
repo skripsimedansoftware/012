@@ -36,6 +36,18 @@ class User extends MY_Model
 		->group_end();
 		return $this->db->get($this->table);
 	}
+
+	public function dokter() {
+		return $this->count(array('role' => 'dokter'));
+	}
+
+	public function pasien() {
+		return $this->count(array('role' => 'pasien', 'status' => 'active'));
+	}
+
+	public function pasien_baru() {
+		return $this->count(array('role' => 'pasien', 'status' => 'non-active'));
+	}
 }
 
 /* End of file User.php */

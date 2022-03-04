@@ -10,7 +10,8 @@ class Web extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$data['content'] = $this->load->view('web/home');
+		$this->load->view('web/base', $data);
 	}
 
 	public function login()
