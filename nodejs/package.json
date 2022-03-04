@@ -1,0 +1,18 @@
+{
+	"name": "service-worker",
+	"version": "1.0.0",
+	"description": "Service Worker Testing",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js"
+	},
+	"keywords": [],
+	"author": "Agung Dirgantara <agungmasda29@gmail.com>",
+	"license": "MIT",
+	"dependencies": {
+		"cors": "^2.8.5",
+		"express": "^4.17.2",
+		"twing": "^5.1.0",
+		"web-push": "^3.4.5"
+	}
+}
