@@ -45,7 +45,7 @@
 			</div>
 		</div>
 		<div class="box-footer">
-			<a href="<?= base_url($this->router->fetch_class().'/pasien') ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
+			<a href="<?= base_url($this->router->fetch_class().'/jadwal') ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
 			<button class="btn btn-success" type="submit" class="form-control">Simpan <i class="fa fa-save"></i></button>
 		</div>
 		</form>

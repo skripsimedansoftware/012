@@ -139,6 +139,7 @@ desired effect
 				<?php elseif  ($user->role == 'dokter'): ?>
 				<li class="<?= $this->router->fetch_method() == 'jadwal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/jadwal') ?>"><i class="fa fa-stethoscope"></i> <span>Jadwal Praktik</span></a></li>
 				<?php else: ?>
+				<li class="<?= $this->router->fetch_method() == 'jadwal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/jadwal') ?>"><i class="fa fa-stethoscope"></i> <span>Jadwal Check-Up</span></a></li>
 				<?php endif; ?>
 			</ul>
 			<!-- /.sidebar-menu -->

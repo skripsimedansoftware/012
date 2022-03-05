@@ -416,6 +416,12 @@ class Admin extends CI_Controller {
 				}
 			break;
 
+			case 'done':
+				$this->jadwal->update(array('status' => 'selesai'), array('id' => $id));
+				$this->session->set_flashdata('data_query', 'Jadwal praktek telah dijalankan');
+				redirect(base_url($this->router->fetch_class().'/jadwal'), 'refresh');
+			break;
+
 			case 'delete':
 				$this->jadwal->delete(array('id' => $id));
 				$this->session->set_flashdata('data_query', 'Data jadwal telah dihapus');
@@ -424,6 +430,116 @@ class Admin extends CI_Controller {
 
 			default:
 				$this->template->load('jadwal/home');
+			break;
+		}
+	}
+
+	public function rekam_medis($option = 'view', $id = NULL)
+	{
+		$tanggal = NULL;
+
+		if (!empty($this->input->post('tanggal')))
+		{
+			$tanggal = explode('/', $this->input->post('tanggal'));
+			$tanggal_available = array();
+			foreach ($tanggal as $dl)
+			{
+				if (!in_array($dl, ['dd', 'mm', 'yyyy']))
+				{
+					array_push($tanggal_available, $dl);
+				}
+			}
+
+			if (count($tanggal_available) == 3)
+			{
+				$tanggal = $tanggal[2].'-'.$tanggal[1].'-'.$tanggal[0];
+			}
+			else
+			{
+				$tanggal = NULL;
+			}
+		}
+
+		switch ($option)
+		{
+			case 'add':
+				if ($this->input->method() == 'post')
+				{
+					$this->form_validation->set_rules('pasien', 'Pasien', 'trim|required');
+					$this->form_validation->set_rules('jadwal', 'Jadwal', 'trim|required');
+					$this->form_validation->set_rules('keluhan', 'Keluhan', 'trim');
+					$this->form_validation->set_rules('diagnosis', 'Diagnosis', 'trim|required');
+					$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
+
+					if (!empty($id))
+					{
+						$rekam_medis = $this->rekam_medis->read(array('jadwal' => $id));
+						if ($rekam_medis->num_rows() >= 1)
+						{
+							redirect(base_url($this->router->fetch_class().'/rekam_medis/edit/'.$rekam_medis->row()->id), 'refresh');
+						}
+					}
+
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array(
+							'pasien' => $this->input->post('pasien'),
+							'jadwal' => $this->input->post('jadwal'),
+							'keluhan' => $this->input->post('keluhan'),
+							'diagnosis' => $this->input->post('diagnosis'),
+							'tanggal' => $tanggal
+						);
+
+						$this->rekam_medis->create($data);
+						$this->session->set_flashdata('data_query', 'Data rekam medis telah ditambahkan');
+						redirect(base_url($this->router->fetch_class().'/jadwal'), 'refresh');
+					}
+					else
+					{
+						$data['jadwal'] = $this->jadwal->read(array('id' => $id))->row();
+						$this->template->load('rekam_medis/add', $data);
+					}
+				}
+				else
+				{
+					$data['jadwal'] = $this->jadwal->read(array('id' => $id))->row();
+					$this->template->load('rekam_medis/add', $data);
+				}
+			break;
+
+			case 'edit':
+				$rekam_medis = $this->rekam_medis->read(array('id' => $id));
+				if ($this->input->method() == 'post')
+				{
+					$this->form_validation->set_rules('pasien', 'Pasien', 'trim|required');
+					$this->form_validation->set_rules('keluhan', 'Keluhan', 'trim');
+					$this->form_validation->set_rules('diagnosis', 'Diagnosis', 'trim|required');
+					$this->form_validation->set_rules('tanggal', 'Tanggal', 'trim|required');
+
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array(
+							'pasien' => $this->input->post('pasien'),
+							'keluhan' => $this->input->post('keluhan'),
+							'diagnosis' => $this->input->post('diagnosis'),
+							'tanggal' => $tanggal
+						);
+
+						$this->rekam_medis->update($data, array('id' => $id));
+						$this->session->set_flashdata('data_query', 'Data rekam medis telah diperbaharui');
+						redirect(base_url($this->router->fetch_class().'/jadwal'), 'refresh');
+					}
+					else
+					{
+						$data['rekam_medis'] = $rekam_medis->row();
+						$this->template->load('rekam_medis/edit', $data);
+					}
+				}
+				else
+				{
+					$data['rekam_medis'] = $rekam_medis->row();
+					$this->template->load('rekam_medis/edit', $data);
+				}
 			break;
 		}
 	}
