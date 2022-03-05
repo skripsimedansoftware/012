@@ -325,68 +325,110 @@ class Admin extends CI_Controller {
 		}
 	}
 
-	public function jadwal()
+	public function jadwal($option = 'view', $id = NULL)
 	{
-		$this->template->load('home');
+		$waktu = NULL;
+
+		if (!empty($this->input->post('waktu')))
+		{
+			$waktu = explode('/', $this->input->post('waktu'));
+			$waktu_available = array();
+			foreach ($waktu as $dl)
+			{
+				if (!in_array($dl, ['dd', 'mm', 'yyyy']))
+				{
+					array_push($waktu_available, $dl);
+				}
+			}
+
+			if (count($waktu_available) == 3)
+			{
+				$waktu = $waktu[2].'-'.$waktu[1].'-'.$waktu[0];
+			}
+			else
+			{
+				$waktu = NULL;
+			}
+		}
+
+		switch ($option)
+		{
+			case 'add':
+				if ($this->input->method() == 'post')
+				{
+					$this->form_validation->set_rules('pasien', 'Pasien', 'trim|required');
+					$this->form_validation->set_rules('dokter', 'Dokter', 'trim|required');
+					$this->form_validation->set_rules('waktu', 'Waktu', 'trim|required');
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array(
+							'pasien' => $this->input->post('pasien'),
+							'dokter' => $this->input->post('dokter'),
+							'waktu' => $waktu,
+							'status' => 'dijadwalkan',
+							'catatan' => $this->input->post('catatan')
+						);
+
+						$this->jadwal->create($data);
+						$this->session->set_flashdata('data_query', 'Data jadwal telah dibuat');
+						redirect(base_url($this->router->fetch_class().'/jadwal'), 'refresh');
+					}
+					else
+					{
+						$this->template->load('jadwal/add');
+					}
+				}
+				else
+				{
+					$this->template->load('jadwal/add');
+				}
+			break;
+
+			case 'edit':
+				if ($this->input->method() == 'post')
+				{
+					$this->form_validation->set_rules('pasien', 'Pasien', 'trim|required');
+					$this->form_validation->set_rules('dokter', 'Dokter', 'trim|required');
+					$this->form_validation->set_rules('waktu', 'Waktu', 'trim|required');
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array(
+							'pasien' => $this->input->post('pasien'),
+							'dokter' => $this->input->post('dokter'),
+							'waktu' => $waktu,
+							'catatan' => $this->input->post('catatan')
+						);
+
+						$this->jadwal->update($data, array('id' => $id));
+						$this->session->set_flashdata('data_query', 'Data jadwal telah diperbaharui');
+						redirect(base_url($this->router->fetch_class().'/jadwal'), 'refresh');
+					}
+					else
+					{
+						$data['data'] = $this->jadwal->read(array('id' => $id))->row();
+						$this->template->load('jadwal/edit', $data);
+					}
+				}
+				else
+				{
+					$data['data'] = $this->jadwal->read(array('id' => $id))->row();
+					$this->template->load('jadwal/edit', $data);
+				}
+			break;
+
+			case 'delete':
+				$this->jadwal->delete(array('id' => $id));
+				$this->session->set_flashdata('data_query', 'Data jadwal telah dihapus');
+				redirect(base_url($this->router->fetch_class().'/jadwal'), 'refresh');
+			break;
+
+			default:
+				$this->template->load('jadwal/home');
+			break;
+		}
 	}
 
-	public function WordWrap(&$text, $maxwidth)
-	{
-	    $text = trim($text);
-	    if ($text==='')
-	        return 0;
-	    $space = $this->GetStringWidth(' ');
-	    $lines = explode("\n", $text);
-	    $text = '';
-	    $count = 0;
-
-	    foreach ($lines as $line)
-	    {
-	        $words = preg_split('/ +/', $line);
-	        $width = 0;
-
-	        foreach ($words as $word)
-	        {
-	            $wordwidth = $this->GetStringWidth($word);
-	            if ($wordwidth > $maxwidth)
-	            {
-	                // Word is too long, we cut it
-	                for($i=0; $i<strlen($word); $i++)
-	                {
-	                    $wordwidth = $this->GetStringWidth(substr($word, $i, 1));
-	                    if($width + $wordwidth <= $maxwidth)
-	                    {
-	                        $width += $wordwidth;
-	                        $text .= substr($word, $i, 1);
-	                    }
-	                    else
-	                    {
-	                        $width = $wordwidth;
-	                        $text = rtrim($text)."\n".substr($word, $i, 1);
-	                        $count++;
-	                    }
-	                }
-	            }
-	            elseif($width + $wordwidth <= $maxwidth)
-	            {
-	                $width += $wordwidth + $space;
-	                $text .= $word.' ';
-	            }
-	            else
-	            {
-	                $width = $wordwidth + $space;
-	                $text = rtrim($text)."\n".$word.' ';
-	                $count++;
-	            }
-	        }
-	        $text = rtrim($text)."\n";
-	        $count++;
-	    }
-	    $text = rtrim($text);
-	    return $count;
-	}
-
-	public function print_report($data = 'pasien', $id = NULL)
+	public function print_report($id = NULL)
 	{
 		$this->fpdf->SetTitle('Laporan Rekam Medis');
 		$this->fpdf->SetAuthor($this->config->item('app_name'));

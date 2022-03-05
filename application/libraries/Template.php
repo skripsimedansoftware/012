@@ -22,7 +22,6 @@ class Template
 
 	public function load($page, $params = array())
 	{
-		$data['page'] = $this->ci->load->view($this->module.'/'.$page, $params, TRUE);
 		if ($this->ci->session->has_userdata('admin'))
 		{
 			$data['user'] = $this->ci->user->read(array('id' => $this->ci->session->userdata('admin')))->row();
@@ -35,6 +34,7 @@ class Template
 		{
 			$data['user'] = $this->ci->user->read(array('id' => $this->ci->session->userdata('pasien')))->row();
 		}
+		$data['page'] = $this->ci->load->view($this->module.'/'.$page, array_merge($params, $data), TRUE);
 		$this->ci->load->view($this->module.'/base', array_merge($data, $params), FALSE);
 	}
 }

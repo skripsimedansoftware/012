@@ -105,8 +105,6 @@ desired effect
 							</li>
 						</ul>
 					</li>
-					<!-- Control Sidebar Toggle Button -->
-					<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a></li>
 				</ul>
 			</div>
 		</nav>
@@ -139,6 +137,7 @@ desired effect
 				<li class="<?= $this->router->fetch_method() == 'pasien'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/pasien') ?>"><i class="fa fa-wheelchair"></i> <span>Pasien</span></a></li>
 				<li class="<?= $this->router->fetch_method() == 'jadwal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/jadwal') ?>"><i class="fa fa-stethoscope"></i> <span>Jadwal Praktik</span></a></li>
 				<?php elseif  ($user->role == 'dokter'): ?>
+				<li class="<?= $this->router->fetch_method() == 'jadwal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/jadwal') ?>"><i class="fa fa-stethoscope"></i> <span>Jadwal Praktik</span></a></li>
 				<?php else: ?>
 				<?php endif; ?>
 			</ul>
@@ -203,6 +202,7 @@ function readURL(input) {
 }
 
 $('.datatable').DataTable();
+$('.datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
 </script>
 </body>
 </html>

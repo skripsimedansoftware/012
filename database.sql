@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2022 at 11:42 PM
+-- Generation Time: Mar 05, 2022 at 12:45 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -60,6 +60,7 @@ CREATE TABLE `jadwal` (
 CREATE TABLE `rekam-medis` (
   `id` int(4) NOT NULL,
   `pasien` int(4) NOT NULL,
+  `jadwal` int(4) NOT NULL,
   `keluhan` text DEFAULT NULL,
   `diagnosis` text DEFAULT NULL,
   `tanggal` date NOT NULL

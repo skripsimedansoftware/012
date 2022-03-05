@@ -7,6 +7,7 @@ class Dokter extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->library('template', ['module' => 'admin']);
+		$this->load->library('FPDF/Fpdf');
 		if (empty($this->session->userdata($this->router->fetch_class())))
 		{
 			redirect(base_url('web/login'), 'refresh');
@@ -106,6 +107,81 @@ class Dokter extends CI_Controller {
 				$this->template->load('profile', $data);
 			break;
 		}
+	}
+
+	public function jadwal()
+	{
+		$this->template->load('jadwal/home');
+	}
+
+	public function print_report($id = NULL)
+	{
+		$this->fpdf->SetTitle('Laporan Rekam Medis');
+		$this->fpdf->SetAuthor($this->config->item('app_name'));
+		$this->fpdf->AddPage();
+		$this->fpdf->SetFont('Arial','B', 15);
+		// Move to the right
+		$this->fpdf->Cell(80);
+		// Framed title
+		$this->fpdf->Image(base_url('LOGO-BNN.png'), 10, 2, -440);
+		$this->fpdf->Cell(-30);
+		$this->fpdf->SetFont('Times', 'B', 16);
+		$this->fpdf->Cell(120, 10, 'LAPORAN - PASIEN RAWAT JALAN', 0, 0, 'C');
+		$this->fpdf->Ln(8);
+		$this->fpdf->Cell(50);
+		$this->fpdf->SetFont('Times', 'B', 14);
+		$this->fpdf->Cell(120, 10, 'BADAN NARKOTIKA NASIONAL', 0, 0, 'C');
+		$this->fpdf->Ln(6);
+		$this->fpdf->Cell(50);
+		$this->fpdf->SetFont('Times', 'IU', 12);
+		$this->fpdf->Cell(120, 10, 'Website : https://sumut.bnn.go.id', 0, 0, 'C');
+		$this->fpdf->Ln(6);
+		$this->fpdf->Cell(50);
+		$this->fpdf->SetFont('Times', '', 12);
+		$this->fpdf->Cell(120, 10, 'Alamat : Jl. Williem Iskandar Pasar V Barat I No. 1-A Medan Estate | Tel : (061) 800-3282', 0, 0, 'C');
+		$this->fpdf->Ln(12);
+		$this->fpdf->Cell(188, 1, '', 1, 0, 'L');
+		$this->fpdf->Ln(6);
+
+
+		$user = $this->user->read(array('id' => $id))->row();
+		$rekam_medis = $this->rekam_medis->read(array('pasien' => $id))->result();
+		$this->fpdf->SetFont('Times', 'BU', 14);
+		$this->fpdf->Cell(200, 10, 'INFORMASI PASIEN', 0, 0, 'L');
+		$this->fpdf->Ln(10);
+		$this->fpdf->SetFont('Times', '', 12);
+		$this->fpdf->Cell(60, 8, "\tNama Lengkap", 1, 0, 'L');
+		$this->fpdf->Cell(80, 8, $user->full_name, 1, 0, 'L');
+		$this->fpdf->Ln(8); // Line Break
+		$this->fpdf->Cell(60, 8, "\tJenis Kelamin", 1, 0, 'L');
+		$this->fpdf->Cell(80, 8, ($user->gender == 'male')?'Laki-laki':'Perempuan', 1, 0, 'L');
+		$this->fpdf->Ln(8); // Line Break
+		$this->fpdf->Cell(60, 8, "\tUsia", 1, 0, 'L');
+		$this->fpdf->Cell(80, 8, ($user->age > 0)?$user->age:'-', 1, 0, 'L');
+		$this->fpdf->Ln(8); // Line Break
+		$this->fpdf->Cell(60, 8, "\tGolongan Darah", 1, 0, 'L');
+		$this->fpdf->Cell(80, 8, $user->blood, 1, 0, 'L');
+		$this->fpdf->Ln(8); // Line Break
+		$this->fpdf->Cell(60, 8, "\tTanggal Mendaftar", 1, 0, 'L');
+		$this->fpdf->Cell(80, 8, nice_date($user->registration_time, 'd F Y | H:i A'), 1, 0, 'L');
+		$this->fpdf->Ln(20); // Line Break
+
+		foreach ($rekam_medis as $data)
+		{
+			$this->fpdf->Cell(20, 8, "\tTanggal", 0, 0, 'L');
+			$this->fpdf->Cell(80, 8, ': '.nice_date($data->tanggal, 'd F Y | H:i A'), 0, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+			$this->fpdf->Cell(20, 8, "\tKeluhan", 0, 0, 'L');
+			$this->fpdf->MultiCell(124, 8, ': '.$data->keluhan, 0, 'L');
+			$this->fpdf->Ln(0); // Line Break
+			$this->fpdf->Cell(20, 8, "\tDiagnosis", 0, 0, 'L');
+			$this->fpdf->MultiCell(124, 8, ': '.$data->diagnosis, 0, 'L');
+			$this->fpdf->Ln(2); // Line Break
+			$this->fpdf->Cell(188, 1, '', 1, 0, 'L');
+			$this->fpdf->Ln(2); // Line Break
+		}
+
+		$this->fpdf->Output();
 	}
 
 	public function logout()

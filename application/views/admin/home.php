@@ -1,6 +1,6 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-	<h1>Administrator<small>Home</small></h1>
+	<h1><?php if ($user->role == 'admin') : ?>Administrator<?php elseif ($user->role == 'dokter') : ?>Dokter<?php else : ?>Pasien<?php endif; ?><small>Beranda</small></h1>
 </section>
 
 <!-- Main content -->
