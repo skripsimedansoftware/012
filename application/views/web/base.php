@@ -79,7 +79,5 @@
 		<script src="<?= base_url('assets/adminlte/') ?>bower_components/fastclick/lib/fastclick.js"></script>
 		<!-- AdminLTE App -->
 		<script src="<?= base_url('assets/adminlte/') ?>dist/js/adminlte.min.js"></script>
-		<!-- AdminLTE for demo purposes -->
-		<script src="<?= base_url('assets/adminlte/') ?>dist/js/demo.js"></script>
 	</body>
 </html>
