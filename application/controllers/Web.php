@@ -10,7 +10,7 @@ class Web extends CI_Controller {
 
 	public function index()
 	{
-		$data['content'] = $this->load->view('web/home');
+		$data['page'] = $this->load->view('web/home', array(), TRUE);
 		$this->load->view('web/base', $data);
 	}
 
