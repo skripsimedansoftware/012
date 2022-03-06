@@ -61,19 +61,22 @@
 				<?php echo form_error('gender', '<span class="help-block error">', '</span>'); ?>
 			</div>
 			<div class="form-group has-feedback">
-				<select class="form-control" name="blood_type">
-					<option value="">Golongan Darah</option>
-					<option value="A">A</option>
-					<option value="B">B</option>
-					<option value="AB">AB</option>
-					<option value="O">O</option>
-				</select>
-				<?php echo form_error('blood_type', '<span class="help-block error">', '</span>'); ?>
+				<input class="form-control" type="number" name="age" placeholder="Usia" onKeyPress="if(this.value.length == 2) return false;" value="<?= set_value('age') ?>">
+				<?php echo form_error('age', '<span class="help-block error">', '</span>'); ?>
 			</div>
 			<div class="form-group has-feedback">
-				<input type="text" class="form-control" placeholder="Kontak" name="contact" value="<?php echo set_value('contact') ?>">
-				<span class="glyphicon glyphicon-phone form-control-feedback"></span>
-				<?php echo form_error('contact', '<span class="help-block error">', '</span>'); ?>
+				<select class="form-control" name="blood">
+					<option value="">- Pilih Golongan Darah -</option>
+					<option value="A" <?= set_value('blood') == 'A' ? 'selected':'' ?>>A</option>
+					<option value="B" <?= set_value('blood') == 'B' ? 'selected':'' ?>>B</option>
+					<option value="AB" <?= set_value('blood') == 'AB' ? 'selected':'' ?>>AB</option>
+					<option value="O" <?= set_value('blood') == 'O' ? 'selected':'' ?>>O</option>
+					<option value="A+" <?= set_value('blood') == 'A+' ? 'selected':'' ?>>A+</option>
+					<option value="B+" <?= set_value('blood') == 'B+' ? 'selected':'' ?>>B+</option>
+					<option value="AB+" <?= set_value('blood') == 'AB+' ? 'selected':'' ?>>AB+</option>
+					<option value="O+" <?= set_value('blood') == 'O+' ? 'selected':'' ?>>O+</option>
+				</select>
+				<?php echo form_error('blood', '<span class="help-block error">', '</span>'); ?>
 			</div>
 			<div class="form-group has-feedback">
 				<input type="password" class="form-control" placeholder="Kata Sandi" name="password" value="<?php echo set_value('password') ?>">

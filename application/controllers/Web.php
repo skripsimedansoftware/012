@@ -57,19 +57,27 @@ class Web extends CI_Controller {
 	{
 		if ($this->input->method() == 'post')
 		{
-			$this->form_validation->set_rules('full_name', 'Nama Lengkap', 'trim|required|max_length[40]');
-			$this->form_validation->set_rules('username', 'Nama Pengguna', 'trim|required|max_length[20]');
-			$this->form_validation->set_rules('email', 'Email', 'trim|valid_email|is_unique[user.email]|max_length[40]', array('is_unique' => 'Email sudah terdaftar!'));
-			$this->form_validation->set_rules('password', 'Kata Sandi', 'trim|required');
+			$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+			$this->form_validation->set_rules('password', 'Kata Sandi', 'trim|required|min_length[5]');
+			$this->form_validation->set_rules('full_name', 'Nama Lengkap', 'trim|required');
+			$this->form_validation->set_rules('age', 'Usia', 'trim|required');
+			$this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required|in_list[male,female]');
+			$this->form_validation->set_rules('blood', 'Golongan Darah', 'trim|required|in_list[A,B,AB,O,A+,B+,AB+,O+]');
 
 			if ($this->form_validation->run() == TRUE)
 			{
-				$this->user->create(array(
+				$data = array(
+					'role' => 'pasien',
 					'email' => $this->input->post('email'),
 					'password' => sha1($this->input->post('password')),
-					'full_name' => $this->input->post('full_name')
-				));
+					'full_name' => $this->input->post('full_name'),
+					'gender' => $this->input->post('gender'),
+					'age' => $this->input->post('age'),
+					'blood' => $this->input->post('blood'),
+					'status' => 'non-active'
+				);
 
+				$this->user->create($data);
 				$this->session->set_flashdata('register', array('status' => 'success', 'message' => 'Pendaftaran berhasil!!'));
 				redirect(base_url($this->router->fetch_class().'/login'), 'refresh');
 			}

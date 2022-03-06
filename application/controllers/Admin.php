@@ -556,11 +556,11 @@ class Admin extends CI_Controller {
 		$this->fpdf->Image(base_url('LOGO-BNN.png'), 10, 2, -440);
 		$this->fpdf->Cell(-30);
 		$this->fpdf->SetFont('Times', 'B', 16);
-		$this->fpdf->Cell(120, 10, 'LAPORAN - PASIEN RAWAT JALAN', 0, 0, 'C');
+		$this->fpdf->Cell(120, 10, 'LAPORAN REKAM MEDIS PASIEN RAWAT JALAN', 0, 0, 'C');
 		$this->fpdf->Ln(8);
 		$this->fpdf->Cell(50);
 		$this->fpdf->SetFont('Times', 'B', 14);
-		$this->fpdf->Cell(120, 10, 'BADAN NARKOTIKA NASIONAL', 0, 0, 'C');
+		$this->fpdf->Cell(120, 10, 'KLINIK PRATAMA BNN SUMUT', 0, 0, 'C');
 		$this->fpdf->Ln(6);
 		$this->fpdf->Cell(50);
 		$this->fpdf->SetFont('Times', 'IU', 12);
@@ -617,7 +617,7 @@ class Admin extends CI_Controller {
 	public function is_owned_data($val, $str)
 	{
 		$str = explode('.', $str);
-		$data = $this->db->get('user', array($str[1] => $val));
+		$data = $this->db->get_where('user', array($str[1] => $val));
 		if ($data->num_rows() >= 1)
 		{
 			if ($data->row()->id == $str[2])

@@ -7,7 +7,7 @@
 <section class="content container-fluid">
 	<div class="box">
 		<div class="box-header with-border"></div>
-		<form method="POST" action="<?= base_url($this->router->fetch_class().'/dokter/edit/'.$data->id) ?>">
+		<form method="POST" action="<?= base_url($this->router->fetch_class().'/pasien/edit/'.$data->id) ?>">
 		<div class="box-body">
 			<div class="row">
 				<div class="col-lg-6">

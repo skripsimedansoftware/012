@@ -7,7 +7,7 @@
 <section class="content container-fluid">
 	<div class="box">
 		<div class="box-header with-border"></div>
-		<form method="POST" action="<?= base_url($this->router->fetch_class().'/dokter/add') ?>">
+		<form method="POST" action="<?= base_url($this->router->fetch_class().'/pasien/add') ?>">
 		<div class="box-body">
 			<div class="row">
 				<div class="col-lg-6">
