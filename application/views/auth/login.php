@@ -21,9 +21,11 @@
 		}
 	</style>
 </head>
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="margin-bottom: 2%; border: 1px solid #d2d6de;">
 <div class="login-box">
 	<div class="login-logo">
+		<a href="<?php echo base_url() ?>"><img src="<?= base_url('LOGO-BNN.png') ?>" height="200"></a>
+		<br>
 		<a href="<?php echo base_url() ?>">Welcome to <b><?= $this->config->item('app_name') ?></b></a>
 	</div>
 	<div class="login-box-body">
@@ -66,7 +68,6 @@
 		<br>
 		<a href="<?php echo base_url() ?>" class="text-center"><i class="fa fa-arrow-left"></i> Beranda</a>
 		<a href="<?php echo base_url('web/forgot_password') ?>" class="text-center pull-right"><i class="fa fa-lock"></i> Lupa Kata Sandi?</a>
-
 	</div>
 </div>
 

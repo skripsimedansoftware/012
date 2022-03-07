@@ -32,9 +32,11 @@
 		}
 	</style>
 </head>
-<body class="hold-transition register-page">
+<body class="hold-transition register-page" style="margin-bottom: 2%; border: 1px solid #d2d6de;">
 <div class="register-box">
 	<div class="register-logo">
+		<a href="<?php echo base_url() ?>"><img src="<?= base_url('LOGO-BNN.png') ?>" height="200"></a>
+		<br>
 		<a href="<?php echo base_url() ?>">Welcome to <b><?= $this->config->item('app_name') ?></b></a>
 	</div>
 
