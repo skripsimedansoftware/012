@@ -55,7 +55,7 @@
 		<div class="box-footer">
 			<a href="<?= base_url($this->router->fetch_class().'/pasien') ?>" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Kembali</a>
 			<a href="<?= base_url($this->router->fetch_class().'/print_report/'.$data->id) ?>" class="btn btn-info"><i class="fa fa-print"></i> Cetak Laporan</a>
-			<a href="<?= base_url($this->router->fetch_class().'/print_report/'.$data->id) ?>" class="btn btn-info"><i class="fa fa-print"></i> Cetak Laporan</a>
+			<a href="<?= base_url($this->router->fetch_class().'/data_pasien/edit/'.$data->id) ?>" class="btn btn-warning"><i class="fa fa-pencil"></i> Sunting</a>
 		</div>
 	</div>
 </section>

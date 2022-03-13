@@ -25,8 +25,16 @@ class Web extends CI_Controller {
 				$user = $this->user->sign_in($this->input->post('identity'), $this->input->post('password'));
 				if ($user->num_rows() >= 1)
 				{
-					$this->session->set_userdata($user->row()->role, $user->row()->id);
-					redirect(base_url($user->row()->role), 'refresh');
+					if ($user->row()->status == 'active')
+					{
+						$this->session->set_userdata($user->row()->role, $user->row()->id);
+						redirect(base_url($user->row()->role), 'refresh');
+					}
+					else
+					{
+						$this->session->set_flashdata('login', array('status' => 'failed', 'message' => 'Akun anda belum diaktifkan'));
+						redirect(base_url($this->router->fetch_class().'/'.$this->router->fetch_method()), 'refresh');
+					}
 				}
 				else
 				{
@@ -60,9 +68,6 @@ class Web extends CI_Controller {
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 			$this->form_validation->set_rules('password', 'Kata Sandi', 'trim|required|min_length[5]');
 			$this->form_validation->set_rules('full_name', 'Nama Lengkap', 'trim|required');
-			$this->form_validation->set_rules('age', 'Usia', 'trim|required');
-			$this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required|in_list[male,female]');
-			$this->form_validation->set_rules('blood', 'Golongan Darah', 'trim|required|in_list[A,B,AB,O,A+,B+,AB+,O+]');
 
 			if ($this->form_validation->run() == TRUE)
 			{
@@ -71,9 +76,7 @@ class Web extends CI_Controller {
 					'email' => $this->input->post('email'),
 					'password' => sha1($this->input->post('password')),
 					'full_name' => $this->input->post('full_name'),
-					'gender' => $this->input->post('gender'),
-					'age' => $this->input->post('age'),
-					'blood' => $this->input->post('blood'),
+					'registration_time' => nice_date(unix_to_human(now()), 'Y-m-d H:i:s'),
 					'status' => 'non-active'
 				);
 

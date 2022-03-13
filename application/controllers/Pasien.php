@@ -109,6 +109,65 @@ class Pasien extends CI_Controller {
 		}
 	}
 
+	public function data_pasien($option = 'view', $id = NULL)
+	{
+		switch ($option)
+		{
+			case 'edit':
+				if ($this->input->method() == 'post')
+				{
+					$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+					$this->form_validation->set_rules('username', 'Nama Pengguna', 'trim|required');
+					$this->form_validation->set_rules('full_name', 'Nama Lengkap', 'trim|required');
+					$this->form_validation->set_rules('age', 'Usia', 'trim|required');
+					$this->form_validation->set_rules('gender', 'Jenis Kelamin', 'trim|required|in_list[male,female]');
+					$this->form_validation->set_rules('blood', 'Golongan Darah', 'trim|required|in_list[A,B,AB,O,A+,B+,AB+,O+]');
+					$this->form_validation->set_rules('status', 'Status Akun', 'trim|required|in_list[active,non-active]');
+
+					if ($this->form_validation->run() == TRUE)
+					{
+						$data = array(
+							'role' => 'pasien',
+							'email' => $this->input->post('email'),
+							'username' => $this->input->post('username'),
+							'full_name' => $this->input->post('full_name'),
+							'gender' => $this->input->post('gender'),
+							'age' => $this->input->post('age'),
+							'blood' => $this->input->post('blood'),
+							'phone' => $this->input->post('phone'),
+							'address' => $this->input->post('address'),
+							'status' => $this->input->post('status')
+						);
+
+						if (!empty($this->input->post('password')))
+						{
+							$data['password'] = sha1($this->input->post('password'));
+						}
+
+						$this->user->update($data, array('id' => $id));
+						$this->session->set_flashdata('data_query', 'Informasi pasien telah diperbaharui');
+						redirect(base_url($this->router->fetch_class().'/data_pasien'), 'refresh');
+					}
+					else
+					{
+						$data['data'] = $this->user->read(array('id' => $this->session->userdata($this->router->fetch_class())))->row();
+						$this->template->load('pasien/self_edit', $data);
+					}
+				}
+				else
+				{
+					$data['data'] = $this->user->read(array('id' => $this->session->userdata($this->router->fetch_class())))->row();
+					$this->template->load('pasien/self_edit', $data);
+				}
+			break;
+
+			default:
+				$data['data'] = $this->user->read(array('id' => $this->session->userdata($this->router->fetch_class())))->row();
+				$this->template->load('pasien/self_view', $data);
+			break;
+		}
+	}
+
 	public function is_owned_data($val, $str)
 	{
 		$str = explode('.', $str);

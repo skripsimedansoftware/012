@@ -328,27 +328,10 @@ class Admin extends CI_Controller {
 	public function jadwal($option = 'view', $id = NULL)
 	{
 		$waktu = NULL;
-
 		if (!empty($this->input->post('waktu')))
 		{
-			$waktu = explode('/', $this->input->post('waktu'));
-			$waktu_available = array();
-			foreach ($waktu as $dl)
-			{
-				if (!in_array($dl, ['dd', 'mm', 'yyyy']))
-				{
-					array_push($waktu_available, $dl);
-				}
-			}
-
-			if (count($waktu_available) == 3)
-			{
-				$waktu = $waktu[2].'-'.$waktu[1].'-'.$waktu[0];
-			}
-			else
-			{
-				$waktu = NULL;
-			}
+			$waktu = preg_match('/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/i', $this->input->post('waktu'), $matches);
+			$waktu = $matches[3].'-'.$matches[1].'-'.$matches[2].' '.$matches[4].':'.$matches[5].':00';
 		}
 
 		switch ($option)
@@ -361,6 +344,14 @@ class Admin extends CI_Controller {
 					$this->form_validation->set_rules('waktu', 'Waktu', 'trim|required');
 					if ($this->form_validation->run() == TRUE)
 					{
+						$valid_date = validateDate($waktu);
+
+						if (!$valid_date)
+						{
+							$this->session->set_flashdata('data_query', 'Format waktu tidak sesuai');
+							redirect(base_url($this->router->fetch_class().'/jadwal'), 'refresh');
+						}
+
 						$data = array(
 							'pasien' => $this->input->post('pasien'),
 							'dokter' => $this->input->post('dokter'),
@@ -392,6 +383,14 @@ class Admin extends CI_Controller {
 					$this->form_validation->set_rules('waktu', 'Waktu', 'trim|required');
 					if ($this->form_validation->run() == TRUE)
 					{
+						$valid_date = validateDate($waktu);
+
+						if (!$valid_date)
+						{
+							$this->session->set_flashdata('data_query', 'Format waktu tidak sesuai');
+							redirect(base_url($this->router->fetch_class().'/jadwal'), 'refresh');
+						}
+
 						$data = array(
 							'pasien' => $this->input->post('pasien'),
 							'dokter' => $this->input->post('dokter'),

@@ -21,5 +21,11 @@ if (!function_exists('valid_json'))
 	}
 }
 
+function validateDate($date, $format = 'Y-m-d H:i:s')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
+}
+
 /* End of file validation_helper.php */
 /* Location : ./application/helpers/validation_helper.php */

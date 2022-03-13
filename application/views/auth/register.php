@@ -37,7 +37,7 @@
 	<div class="register-logo">
 		<a href="<?php echo base_url() ?>"><img src="<?= base_url('LOGO-BNN.png') ?>" height="200"></a>
 		<br>
-		<a href="<?php echo base_url() ?>">Welcome to <b><?= $this->config->item('app_name') ?></b></a>
+		<a href="<?php echo base_url() ?>">Selamat datang di <b><?= $this->config->item('app_name') ?></b></a>
 	</div>
 
 	<div class="register-box-body">
@@ -53,32 +53,6 @@
 				<input type="email" class="form-control" placeholder="Email" name="email" value="<?php echo set_value('email') ?>">
 				<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 				<?php echo form_error('email', '<span class="help-block error">', '</span>'); ?>
-			</div>
-			<div class="form-group has-feedback">
-				<select class="form-control" name="gender">
-					<option value="">Jenis Kelamin</option>
-					<option value="male" <?= set_value('gender') == 'male'?'selected':'' ?>>Pria</option>
-					<option value="female" <?= set_value('gender') == 'female'?'selected':'' ?>>Wanita</option>
-				</select>
-				<?php echo form_error('gender', '<span class="help-block error">', '</span>'); ?>
-			</div>
-			<div class="form-group has-feedback">
-				<input class="form-control" type="number" name="age" placeholder="Usia" onKeyPress="if(this.value.length == 2) return false;" value="<?= set_value('age') ?>">
-				<?php echo form_error('age', '<span class="help-block error">', '</span>'); ?>
-			</div>
-			<div class="form-group has-feedback">
-				<select class="form-control" name="blood">
-					<option value="">- Pilih Golongan Darah -</option>
-					<option value="A" <?= set_value('blood') == 'A' ? 'selected':'' ?>>A</option>
-					<option value="B" <?= set_value('blood') == 'B' ? 'selected':'' ?>>B</option>
-					<option value="AB" <?= set_value('blood') == 'AB' ? 'selected':'' ?>>AB</option>
-					<option value="O" <?= set_value('blood') == 'O' ? 'selected':'' ?>>O</option>
-					<option value="A+" <?= set_value('blood') == 'A+' ? 'selected':'' ?>>A+</option>
-					<option value="B+" <?= set_value('blood') == 'B+' ? 'selected':'' ?>>B+</option>
-					<option value="AB+" <?= set_value('blood') == 'AB+' ? 'selected':'' ?>>AB+</option>
-					<option value="O+" <?= set_value('blood') == 'O+' ? 'selected':'' ?>>O+</option>
-				</select>
-				<?php echo form_error('blood', '<span class="help-block error">', '</span>'); ?>
 			</div>
 			<div class="form-group has-feedback">
 				<input type="password" class="form-control" placeholder="Kata Sandi" name="password" value="<?php echo set_value('password') ?>">

@@ -63,9 +63,9 @@ desired effect
 		<!-- Logo -->
 		<a href="<?= base_url() ?>" target="_blank" class="logo">
 			<!-- mini logo for sidebar mini 50x50 pixels -->
-			<span class="logo-mini"><b>ADM</b></span>
+			<span class="logo-mini"><b>SRM</b></span>
 			<!-- logo for regular state and mobile devices -->
-			<span class="logo-lg"><b>ADMIN</b></span>
+			<span class="logo-lg"><b><?= strtoupper($user->role)  ?></b></span>
 		</a>
 
 		<!-- Header Navbar -->
@@ -91,7 +91,7 @@ desired effect
 							<li class="user-header">
 								<img src="<?= (!empty($user->photo))?base_url('uploads/'.$user->photo):base_url('assets/adminlte/dist/img/user2-160x160.jpg') ?>" class="img-circle" alt="User Image">
 								<p>
-									<?= $user->full_name ?> - <?= $user->role ?>
+									<?= $user->full_name ?> - <?= strtoupper($user->role)  ?>
 								</p>
 							</li>
 							<!-- Menu Footer-->
@@ -140,6 +140,7 @@ desired effect
 				<li class="<?= $this->router->fetch_method() == 'jadwal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/jadwal') ?>"><i class="fa fa-stethoscope"></i> <span>Jadwal Praktik</span></a></li>
 				<?php else: ?>
 				<li class="<?= $this->router->fetch_method() == 'jadwal'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/jadwal') ?>"><i class="fa fa-stethoscope"></i> <span>Jadwal Check-Up</span></a></li>
+				<li class="<?= $this->router->fetch_method() == 'data_pasien'?'active':'' ?>"><a href="<?= base_url($this->router->fetch_class().'/data_pasien') ?>"><i class="fa fa-wheelchair"></i> <span>Data Pasien</span></a></li>
 				<?php endif; ?>
 			</ul>
 			<!-- /.sidebar-menu -->
@@ -185,6 +186,8 @@ desired effect
 <!-- SweetAlert2 -->
 <script src="<?= base_url('assets/plugins/') ?>SweetAlert2/dist/sweetalert2.all.min.js"></script>
 
+<script src="<?= base_url('assets/plugins/') ?>jQuery-Mask/dist/jquery.mask.min.js"></script>
+
 <!-- DataTables -->
 <script src="<?= base_url('assets/plugins/') ?>DataTables/datatables.min.js"></script>
 
@@ -203,7 +206,17 @@ function readURL(input) {
 }
 
 $('.datatable').DataTable();
-$('.datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' });
+$('.datemask').inputmask({
+	mask: "2/1/y h:s",
+	placeholder: "mm/dd/yyyy hh:mm",
+	alias: "datetime",
+	hourFormat: "24"
+});
+// $('.datemask').inputmask('dd/mm/yyyy a', { 'placeholder': 'dd/mm/yyyy a' });
+// $('.datemask').mask('00/00/0000 00:00', {
+// 	placeholder: "dd/mm/yyyy h:i",
+// 	clearIfNotMatch: true
+// });
 </script>
 </body>
 </html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 05, 2022 at 05:25 AM
+-- Generation Time: Mar 13, 2022 at 09:43 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.3.29
 
@@ -82,6 +82,8 @@ CREATE TABLE `user` (
   `gender` enum('male','female') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `age` int(2) DEFAULT NULL,
   `blood` char(2) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `photo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `push_notif` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` enum('active','non-active') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'non-active',
@@ -92,10 +94,10 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `role`, `email`, `username`, `password`, `full_name`, `gender`, `age`, `blood`, `photo`, `push_notif`, `status`, `registration_time`) VALUES
-(1, 'admin', 'admin@rekammedis.com', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'ADMIN', 'male', NULL, NULL, NULL, NULL, 'active', NULL),
-(2, 'dokter', 'dokter@rekammedis.com', 'dokter', '9d2878abdd504d16fe6262f17c80dae5cec34440', 'Dokter', 'male', NULL, NULL, NULL, NULL, 'active', NULL),
-(3, 'pasien', 'pasien@rekammedis.com', 'pasien', '2d64647e07ad6d7fdc36818a3f93a0c8a054bd18', 'Pasien', 'male', 40, 'AB', NULL, NULL, 'active', '2022-02-20 21:56:13');
+INSERT INTO `user` (`id`, `role`, `email`, `username`, `password`, `full_name`, `gender`, `age`, `blood`, `phone`, `address`, `photo`, `push_notif`, `status`, `registration_time`) VALUES
+(1, 'admin', 'admin@rekammedis.com', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'ADMIN', 'male', NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL),
+(2, 'dokter', 'dokter@rekammedis.com', 'dokter', '9d2878abdd504d16fe6262f17c80dae5cec34440', 'Dokter', 'male', NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL),
+(3, 'pasien', 'pasien@rekammedis.com', 'pasien', '2d64647e07ad6d7fdc36818a3f93a0c8a054bd18', 'Pasien', 'male', 40, 'AB', NULL, NULL, NULL, NULL, 'active', '2022-02-20 21:56:13');
 
 --
 -- Indexes for dumped tables

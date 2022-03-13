@@ -26,7 +26,7 @@
 	<div class="login-logo">
 		<a href="<?php echo base_url() ?>"><img src="<?= base_url('LOGO-BNN.png') ?>" height="200"></a>
 		<br>
-		<a href="<?php echo base_url() ?>">Welcome to <b><?= $this->config->item('app_name') ?></b></a>
+		<a href="<?php echo base_url() ?>">Selamat datang di <b><?= $this->config->item('app_name') ?></b></a>
 	</div>
 	<div class="login-box-body">
 		<p class="login-box-msg">Masuk untuk memulai sesi anda</p>

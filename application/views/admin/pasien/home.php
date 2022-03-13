@@ -28,7 +28,7 @@
 					<tr>
 						<td><?= $key+1 ?></td>
 						<td><?= $data->full_name ?></td>
-						<td><?= ($data->gender == 'male')?'Laki-laki':'Perempuan' ?></td>
+						<td><?= ($data->gender == 'male') ? 'Laki-laki' : ($data->gender == 'female' ? 'Perempuan' : '-')  ?></td>
 						<td><?= ((int) $data->age > 0)?$data->age:'-' ?></td>
 						<td>
 							<?php if ($data->status == 'active'): ?>

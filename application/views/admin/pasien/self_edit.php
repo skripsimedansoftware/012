@@ -1,13 +1,13 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-	<h1>Sunting Data<small>Pasien</small></h1>
+	<h1>Sunting Data<small>Pribadi</small></h1>
 </section>
 
 <!-- Main content -->
 <section class="content container-fluid">
 	<div class="box">
 		<div class="box-header with-border"></div>
-		<form method="POST" action="<?= base_url($this->router->fetch_class().'/pasien/edit/'.$data->id) ?>">
+		<form method="POST" action="<?= base_url($this->router->fetch_class().'/data_pasien/edit/'.$data->id) ?>">
 		<div class="box-body">
 			<div class="row">
 				<div class="col-lg-6">
@@ -49,6 +49,16 @@
 							<option value="O+" <?= set_value('blood', $data->blood) == 'O+' ? 'selected':'' ?>>O+</option>
 						</select>
 						<?php echo form_error('blood', '<span class="help-block error">', '</span>'); ?>
+					</div>
+					<div class="form-group">
+						<label>Kontak</label>
+						<input class="form-control" type="text" name="phone" placeholder="Kontak" value="<?= set_value('phone', $data->phone) ?>">
+						<?php echo form_error('phone', '<span class="help-block error">', '</span>'); ?>
+					</div>
+					<div class="form-group">
+						<label>Alamat</label>
+						<input class="form-control" type="text" name="address" placeholder="Alamat" value="<?= set_value('address', $data->address) ?>">
+						<?php echo form_error('address', '<span class="help-block error">', '</span>'); ?>
 					</div>
 					<div class="form-group">
 						<label>Usia</label>
