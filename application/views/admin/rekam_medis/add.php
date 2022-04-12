@@ -23,7 +23,7 @@
 					</div>
 					<div class="form-group">
 						<label>Waktu</label>
-						<input class="form-control datemask" type="text" name="tanggal" value="<?= set_value('tanggal', nice_date($jadwal->waktu, 'd/m/Y')) ?>">
+						<input class="form-control datemask" type="text" name="tanggal" value="<?= set_value('tanggal', nice_date($jadwal->waktu, 'd/m/Y H:i')) ?>">
 						<?php echo form_error('tanggal', '<span class="help-block error">', '</span>'); ?>
 					</div>
 					<div class="form-group">
@@ -35,6 +35,11 @@
 						<label>Diagnosis</label>
 						<textarea name="diagnosis" class="form-control" placeholder="Diagnosis..."><?= set_value('diagnosis') ?></textarea>
 						<?php echo form_error('gender', '<span class="help-block error">', '</span>'); ?>
+					</div>
+					<div class="form-group">
+						<label>Saran Dokter</label>
+						<textarea name="saran" class="form-control" placeholder="Saran..."><?= set_value('saran') ?></textarea>
+						<?php echo form_error('saran', '<span class="help-block error">', '</span>'); ?>
 					</div>
 					<input type="hidden" name="jadwal" value="<?= $jadwal->id ?>">
 					<input type="hidden" name="pasien" value="<?= $jadwal->pasien ?>">

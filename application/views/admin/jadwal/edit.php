@@ -39,7 +39,7 @@
 					<div class="form-group">
 						<label>Catatan</label>
 						<textarea name="catatan" class="form-control" placeholder="Catatan..."><?= set_value('catatan', $data->catatan) ?></textarea>
-						<?php echo form_error('gender', '<span class="help-block error">', '</span>'); ?>
+						<?php echo form_error('catatan', '<span class="help-block error">', '</span>'); ?>
 					</div>
 				</div>
 			</div>

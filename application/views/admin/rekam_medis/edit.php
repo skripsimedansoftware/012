@@ -36,6 +36,11 @@
 						<textarea name="diagnosis" class="form-control" placeholder="Diagnosis..."><?= set_value('diagnosis', $rekam_medis->diagnosis) ?></textarea>
 						<?php echo form_error('diagnosis', '<span class="help-block error">', '</span>'); ?>
 					</div>
+					<div class="form-group">
+						<label>Saran Dokter</label>
+						<textarea name="saran" class="form-control" placeholder="Saran..."><?= set_value('saran', $rekam_medis->saran) ?></textarea>
+						<?php echo form_error('saran', '<span class="help-block error">', '</span>'); ?>
+					</div>
 					<input type="hidden" name="pasien" value="<?= $rekam_medis->pasien ?>">
 				</div>
 			</div>
