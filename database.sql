@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 13, 2022 at 09:43 PM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 7.3.29
+-- Host: localhost
+-- Generation Time: Apr 12, 2022 at 04:22 AM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 7.3.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `skripsi-rekam-medis`
+-- Database: `rekam-medis-bnn`
 --
 
 -- --------------------------------------------------------
@@ -63,6 +63,7 @@ CREATE TABLE `rekam-medis` (
   `jadwal` int(4) NOT NULL,
   `keluhan` text DEFAULT NULL,
   `diagnosis` text DEFAULT NULL,
+  `saran` text DEFAULT NULL,
   `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
