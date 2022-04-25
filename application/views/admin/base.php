@@ -207,8 +207,7 @@ function readURL(input) {
 
 $('.datatable').DataTable();
 $('.datemask').inputmask({
-	mask: "2/1/y h:s",
-	placeholder: "mm/dd/yyyy hh:mm",
+	placeholder: "dd/mm/yyyy hh:mm",
 	alias: "datetime",
 	hourFormat: "24"
 });

@@ -331,7 +331,7 @@ class Admin extends CI_Controller {
 		if (!empty($this->input->post('waktu')))
 		{
 			$waktu = preg_match('/(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/i', $this->input->post('waktu'), $matches);
-			$waktu = $matches[3].'-'.$matches[1].'-'.$matches[2].' '.$matches[4].':'.$matches[5].':00';
+			$waktu = $matches[3].'-'.$matches[2].'-'.$matches[1].' '.$matches[4].':'.$matches[5].':00';
 		}
 
 		switch ($option)
