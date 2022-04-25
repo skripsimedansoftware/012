@@ -600,6 +600,9 @@ class Admin extends CI_Controller {
 
 		foreach ($rekam_medis as $data)
 		{
+			$this->fpdf->Cell(20, 8, "\tKode", 1, 0, 'L');
+			$this->fpdf->Cell(124, 8, ': RM-'.$data->id, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
 			$this->fpdf->Cell(20, 8, "\tTanggal", 1, 0, 'L');
 			$this->fpdf->Cell(124, 8, ': '.nice_date($data->tanggal, 'd F Y'), 1, 0, 'L');
 			$this->fpdf->Ln(8); // Line Break

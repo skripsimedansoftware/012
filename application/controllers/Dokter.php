@@ -192,17 +192,22 @@ class Dokter extends CI_Controller {
 
 		foreach ($rekam_medis as $data)
 		{
-			$this->fpdf->Cell(20, 8, "\tTanggal", 0, 0, 'L');
-			$this->fpdf->Cell(80, 8, ': '.nice_date($data->tanggal, 'd F Y | H:i A'), 0, 0, 'L');
+			$this->fpdf->Cell(20, 8, "\tKode", 1, 0, 'L');
+			$this->fpdf->Cell(124, 8, ': RM-'.$data->id, 1, 0, 'L');
 			$this->fpdf->Ln(8); // Line Break
-			$this->fpdf->Cell(20, 8, "\tKeluhan", 0, 0, 'L');
-			$this->fpdf->MultiCell(124, 8, ': '.$data->keluhan, 0, 'L');
+			$this->fpdf->Cell(20, 8, "\tTanggal", 1, 0, 'L');
+			$this->fpdf->Cell(124, 8, ': '.nice_date($data->tanggal, 'd F Y'), 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+			$this->fpdf->Cell(20, 8, "\tKeluhan", 1, 0, 'L');
+			$this->fpdf->MultiCell(124, 8, ': '.$data->keluhan, 1, 'L');
 			$this->fpdf->Ln(0); // Line Break
-			$this->fpdf->Cell(20, 8, "\tDiagnosis", 0, 0, 'L');
-			$this->fpdf->MultiCell(124, 8, ': '.$data->diagnosis, 0, 'L');
-			$this->fpdf->Ln(2); // Line Break
-			$this->fpdf->Cell(188, 1, '', 1, 0, 'L');
-			$this->fpdf->Ln(2); // Line Break
+			$this->fpdf->Cell(20, 8, "\tDiagnosis", 1, 0, 'L');
+			$this->fpdf->MultiCell(124, 8, ': '.$data->diagnosis, 1, 'L');
+			$this->fpdf->Cell(20, 8, "\tSaran", 1, 0, 'L');
+			$this->fpdf->MultiCell(124, 8, ': '.$data->saran, 1, 'L');
+			$this->fpdf->Ln(6); // Line Break
+			$this->fpdf->Cell(188, 0.2, '', 1, 0, 'L');
+			$this->fpdf->Ln(6); // Line Break
 		}
 
 		$this->fpdf->Output();
