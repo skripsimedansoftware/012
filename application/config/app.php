@@ -3,11 +3,11 @@
  * @package Codeigniter
  * @subpackage App
  * @category Config
- * @author Agung Dirgantara <agungmasda29@gmail.com>
+ * @author Muhammad Syah Fikri <syhfikrii@gmail.com>
  */
 
-$config['app_name'] = 'Rekam Medis';
-$config['app_user'] = 'Agung Dirgantara';
+$config['app_name'] = 'Rekam Medis Klinik Pratama BNN Sumut';
+$config['app_user'] = 'Muhammad Syah Fikri';
 $config['app_node'] = 'https://rekam-medis-bnn.herokuapp.com';
 
 /* End of file app.php */
