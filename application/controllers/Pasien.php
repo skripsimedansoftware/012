@@ -233,6 +233,12 @@ class Pasien extends CI_Controller {
 		$this->fpdf->Cell(200, 10, 'INFORMASI PASIEN', 0, 0, 'L');
 		$this->fpdf->Ln(10);
 		$this->fpdf->SetFont('Times', '', 12);
+		if (!empty($user->identity_type))
+		{
+			$this->fpdf->Cell(60, 8, "\t".$user->identity_type, 1, 0, 'L');
+			$this->fpdf->Cell(80, 8, $user->identity_number, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+		}
 		$this->fpdf->Cell(60, 8, "\tNama Lengkap", 1, 0, 'L');
 		$this->fpdf->Cell(80, 8, $user->full_name, 1, 0, 'L');
 		$this->fpdf->Ln(8); // Line Break
@@ -251,19 +257,60 @@ class Pasien extends CI_Controller {
 
 		foreach ($rekam_medis as $data)
 		{
-			$this->fpdf->Cell(20, 8, "\tKode", 1, 0, 'L');
-			$this->fpdf->Cell(124, 8, ': RM-'.$data->id, 1, 0, 'L');
+			$this->fpdf->Cell(80, 8, "\tKode", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': RM-'.$data->id, 1, 0, 'L');
 			$this->fpdf->Ln(8); // Line Break
-			$this->fpdf->Cell(20, 8, "\tTanggal", 1, 0, 'L');
-			$this->fpdf->Cell(124, 8, ': '.nice_date($data->tanggal, 'd F Y'), 1, 0, 'L');
+			$this->fpdf->Cell(80, 8, "\tTanggal", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': '.nice_date($data->tanggal, 'd F Y'), 1, 0, 'L');
 			$this->fpdf->Ln(8); // Line Break
-			$this->fpdf->Cell(20, 8, "\tKeluhan", 1, 0, 'L');
-			$this->fpdf->MultiCell(124, 8, ': '.$data->keluhan, 1, 'L');
+
+			$this->fpdf->Cell(80, 8, "\tTekanan Darah", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': '.$data->tekanan_darah, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+
+			$this->fpdf->Cell(80, 8, "\tNadi", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': '.$data->nadi, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+
+			$this->fpdf->Cell(80, 8, "\tPernafasan", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': '.$data->pernafasan, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+
+			$this->fpdf->Cell(80, 8, "\tSuhu", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': '.$data->suhu, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+
+			$this->fpdf->Cell(80, 8, "\tSistem Pencernaan", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': '.$data->sistem_pencernaan, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+
+			$this->fpdf->Cell(80, 8, "\tSistem Jantung dan Pembuluh Darah", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': '.$data->jantung_pembuluh_darah, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+
+			$this->fpdf->Cell(80, 8, "\tSistem Saraf Pusat", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': '.$data->sistem_saraf_pusat, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+
+			$this->fpdf->Cell(80, 8, "\tTHT dan Kulit", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': '.$data->tht_dan_kulit, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+
+			$this->fpdf->Cell(80, 8, "\tKeterangan", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': '.$data->keterangan, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+
+			$this->fpdf->Cell(80, 8, "\tPemeriksaan Urin", 1, 0, 'L');
+			$this->fpdf->Cell(100, 8, ': '.$data->pemeriksaan_urin, 1, 0, 'L');
+			$this->fpdf->Ln(8); // Line Break
+
+			$this->fpdf->Cell(80, 8, "\tUraian", 1, 0, 'L');
+			$this->fpdf->MultiCell(100, 8, ': '.$data->keluhan, 1, 'L');
 			$this->fpdf->Ln(0); // Line Break
-			$this->fpdf->Cell(20, 8, "\tDiagnosis", 1, 0, 'L');
-			$this->fpdf->MultiCell(124, 8, ': '.$data->diagnosis, 1, 'L');
-			$this->fpdf->Cell(20, 8, "\tSaran", 1, 0, 'L');
-			$this->fpdf->MultiCell(124, 8, ': '.$data->saran, 1, 'L');
+			$this->fpdf->Cell(80, 8, "\tDiagnosis", 1, 0, 'L');
+			$this->fpdf->MultiCell(100, 8, ': '.$data->diagnosis, 1, 'L');
+			$this->fpdf->Cell(80, 8, "\tSaran", 1, 0, 'L');
+			$this->fpdf->MultiCell(100, 8, ': '.$data->saran, 1, 'L');
 			$this->fpdf->Ln(6); // Line Break
 			$this->fpdf->Cell(188, 0.2, '', 1, 0, 'L');
 			$this->fpdf->Ln(6); // Line Break
