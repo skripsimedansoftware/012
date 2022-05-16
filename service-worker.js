@@ -91,7 +91,7 @@ self.addEventListener('push', event => {
 		var notification = JSON.parse(event.data.text());
 
 		self.registration.showNotification(notification.title, notification.options);
-		feedback.send({ event: 'received', notification: notification.options.data });
+		// feedback.send({ event: 'received', notification: notification.options.data });
 	}
 });
 
@@ -112,17 +112,18 @@ self.addEventListener('notificationclick', function(event) {
 		}
 
 		if (event.action == '') {
-			feedback.send({ event: 'clicked', notification: event.notification.data });
+			// feedback.send({ event: 'clicked', notification: event.notification.data });
 			if (clients.openWindow) {
 				if (event.notification.data !== undefined && event.notification.data !== null) {
 					if (event.notification.data.open_url !== undefined) {
+						console.log('open_url')
 						return clients.openWindow(event.notification.data.open_url);
 					}
 				}
 			}
 		} else {
 
-			feedback.send({ event: 'clicked', action: event.action, notification: event.notification.data });
+			// feedback.send({ event: 'clicked', action: event.action, notification: event.notification.data });
 			switch (event.action) {
 				case 'action1':
 				break;
@@ -143,6 +144,6 @@ self.addEventListener('notificationclick', function(event) {
  */
 self.addEventListener('notificationclose', function(event) {
 	if (event.notification.data !== undefined) {
-		feedback.send({ event: 'closed', notification: event.notification.data });
+		// feedback.send({ event: 'closed', notification: event.notification.data });
 	}
 });
