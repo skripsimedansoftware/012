@@ -57,7 +57,7 @@
 						<div class="col-lg-4">
 							<div class="form-group">
 								<label>Tanggal Lahir</label>
-								<input class="form-control dateonly" type="text" name="birthday" placeholder="Tanggal Lahir" value="<?= set_value('birthday', $data->birthday) ?>">
+								<input class="form-control dateonly" type="text" name="birthday" placeholder="Tanggal Lahir" value="<?= set_value('birthday', nice_date($data->birthday, 'd/m/Y')) ?>">
 							</div>
 						</div>
 						<div class="col-lg-4">

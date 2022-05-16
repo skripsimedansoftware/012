@@ -553,6 +553,16 @@ class Admin extends CI_Controller {
 							'keluhan' => $this->input->post('keluhan'),
 							'diagnosis' => $this->input->post('diagnosis'),
 							'saran' => $this->input->post('saran'),
+							'tekanan_darah' => $this->input->post('tekanan_darah'),
+							'nadi' => $this->input->post('nadi'),
+							'pernafasan' => $this->input->post('pernafasan'),
+							'suhu' => $this->input->post('suhu'),
+							'sistem_pencernaan' => $this->input->post('sistem_pencernaan'),
+							'jantung_pembuluh_darah' => $this->input->post('jantung_pembuluh_darah'),
+							'sistem_saraf_pusat' => $this->input->post('sistem_saraf_pusat'),
+							'tht_dan_kulit' => $this->input->post('tht_dan_kulit'),
+							'pemeriksaan_urin' => $this->input->post('pemeriksaan_urin'),
+							'keterangan' => $this->input->post('keterangan'),
 							'tanggal' => $tanggal
 						);
 
@@ -589,6 +599,16 @@ class Admin extends CI_Controller {
 							'keluhan' => $this->input->post('keluhan'),
 							'diagnosis' => $this->input->post('diagnosis'),
 							'saran' => $this->input->post('saran'),
+							'tekanan_darah' => $this->input->post('tekanan_darah'),
+							'nadi' => $this->input->post('nadi'),
+							'pernafasan' => $this->input->post('pernafasan'),
+							'suhu' => $this->input->post('suhu'),
+							'sistem_pencernaan' => $this->input->post('sistem_pencernaan'),
+							'jantung_pembuluh_darah' => $this->input->post('jantung_pembuluh_darah'),
+							'sistem_saraf_pusat' => $this->input->post('sistem_saraf_pusat'),
+							'tht_dan_kulit' => $this->input->post('tht_dan_kulit'),
+							'pemeriksaan_urin' => $this->input->post('pemeriksaan_urin'),
+							'keterangan' => $this->input->post('keterangan'),
 							'tanggal' => $tanggal
 						);
 
