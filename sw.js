@@ -60,12 +60,12 @@ var register = (callback) => {
 }
 
 /**
- * public : BOpvsZbWYd0HISha1N4aDTLTrkCeIbQs-IouzyswJ5QKLMwPHNEfy9XWthCvlO7h3YDWvrTYVAmveYujMRUEfFU
- * private : LmJrS3QPlploI6TpueNPHLjNlhc8ayrAcXjoZ2j21Og
+ * public : BB_81xrK2j5tbkai_L7ECYAwo6aDSy7bDLDrG11FtTAwvDJTqjX_J9lu7aq5t80bbb0Uqjat0NilJU6XWGYMgjg
+ * private : DkunOsGDRvlsAhrLPOIU5EKVVZTOzEL7KgTBd5Ypkus
  */
 register(async (sw) => {
 	var subscribe_notification = await sw.pushManager.subscribe({
 		userVisibleOnly: true,
-		applicationServerKey: base64_to_int8_array('BOpvsZbWYd0HISha1N4aDTLTrkCeIbQs-IouzyswJ5QKLMwPHNEfy9XWthCvlO7h3YDWvrTYVAmveYujMRUEfFU')
+		applicationServerKey: base64_to_int8_array('BB_81xrK2j5tbkai_L7ECYAwo6aDSy7bDLDrG11FtTAwvDJTqjX_J9lu7aq5t80bbb0Uqjat0NilJU6XWGYMgjg')
 	});
 });
