@@ -211,11 +211,21 @@ class Admin extends CI_Controller {
 
 	public function pasien($option = 'view', $id = NULL)
 	{
+		if (!empty($this->input->post('birthday')))
+		{
+			preg_match('/(\d{2})\/(\d{2})\/(\d{4})/i', $this->input->post('birthday'), $birthday);
+			$birthday = $birthday[3].'-'.$birthday[2].'-'.$birthday[1];
+		}
+
 		switch ($option)
 		{
 			case 'add':
 				if ($this->input->method() == 'post')
 				{
+					$this->form_validation->set_rules('identity_type', 'Kartu Identitas', 'trim|required');
+					$this->form_validation->set_rules('identity_number', 'Nomor Identitas', 'trim|required|numeric');
+					$this->form_validation->set_rules('birthplace', 'Tempat Lahir', 'trim|required');
+					$this->form_validation->set_rules('birthday', 'Tanggal Lahir', 'trim|required');
 					$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
 					$this->form_validation->set_rules('username', 'Nama Pengguna', 'trim|required');
 					$this->form_validation->set_rules('password', 'Kata Sandi', 'trim|required|min_length[5]');
@@ -229,6 +239,21 @@ class Admin extends CI_Controller {
 					{
 						$data = array(
 							'role' => 'pasien',
+							'identity_type' => $this->input->post('identity_type'),
+							'identity_number' => $this->input->post('identity_number'),
+							'birthplace' => $this->input->post('birthplace'),
+							'birthday' => $birthday,
+							'father_name' => $this->input->post('father_name'),
+							'mother_name' => $this->input->post('mother_name'),
+							'religion' => $this->input->post('religion'),
+							'ethnic_group' => $this->input->post('ethnic_group'),
+							'education' => $this->input->post('education'),
+							'marital_status' => $this->input->post('marital_status'),
+							'profession_type' => $this->input->post('profession_type'),
+							'profession_name' => $this->input->post('profession_name'),
+							'police_case' => $this->input->post('police_case'),
+							'sender' => $this->input->post('sender'),
+							'sender_name' => $this->input->post('sender_name'),
 							'email' => $this->input->post('email'),
 							'username' => $this->input->post('username'),
 							'password' => sha1($this->input->post('password')),
@@ -269,6 +294,21 @@ class Admin extends CI_Controller {
 					{
 						$find = $this->user->read(array('id' => $id))->row();
 						$data = array(
+							'identity_type' => $this->input->post('identity_type'),
+							'identity_number' => $this->input->post('identity_number'),
+							'birthplace' => $this->input->post('birthplace'),
+							'birthday' => $birthday,
+							'father_name' => $this->input->post('father_name'),
+							'mother_name' => $this->input->post('mother_name'),
+							'religion' => $this->input->post('religion'),
+							'ethnic_group' => $this->input->post('ethnic_group'),
+							'education' => $this->input->post('education'),
+							'marital_status' => $this->input->post('marital_status'),
+							'profession_type' => $this->input->post('profession_type'),
+							'profession_name' => $this->input->post('profession_name'),
+							'police_case' => $this->input->post('police_case'),
+							'sender' => $this->input->post('sender'),
+							'sender_name' => $this->input->post('sender_name'),
 							'email' => $this->input->post_data('email', $find->email),
 							'username' => $this->input->post_data('username', $find->username),
 							'full_name' => $this->input->post_data('full_name', $find->full_name),
@@ -280,7 +320,6 @@ class Admin extends CI_Controller {
 						);
 
 						$data['password'] = (!empty($this->input->post('password')))?sha1($this->input->post('password')):$find->password;
-
 						$this->user->update($data, array('id' => $id));
 						$this->session->set_flashdata('data_query', 'Data pasien telah diperbaharui');
 						redirect(base_url($this->router->fetch_class().'/pasien'), 'refresh');
@@ -299,6 +338,32 @@ class Admin extends CI_Controller {
 			break;
 
 			case 'activate':
+				if ($this->input->get('status') == 'active')
+				{
+					$find = $this->user->read(array('id' => $id))->row();
+
+					if (!empty($find->push_notif))
+					{
+						$curl = new Curl\Curl();
+						$curl->post(config_item('app_node'), array(
+							'vapid' => array(
+								'public' => 'BB_81xrK2j5tbkai_L7ECYAwo6aDSy7bDLDrG11FtTAwvDJTqjX_J9lu7aq5t80bbb0Uqjat0NilJU6XWGYMgjg',
+								'private' => 'DkunOsGDRvlsAhrLPOIU5EKVVZTOzEL7KgTBd5Ypkus'
+							),
+							'subscription' => $find->push_notif,
+							'notification' => array(
+								'title' => config_item('app_name'),
+								'options'  => array(
+									'body' => 'Pendaftaran anda telah di terima, silahkan login untuk melihat jadwal',
+									'data' => array(
+										'open_url' => base_url('web/login')
+									)
+								)
+							)
+						));
+					}
+				}
+
 				$this->user->update(array('status' => $this->input->get('status')), array('id' => $id));
 				$status = ($this->input->get('status') == 'active')?'aktif':'non-aktif';
 				$this->session->set_flashdata('data_query', 'Akun pasien telah '.$status);

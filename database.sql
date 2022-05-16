@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Apr 12, 2022 at 04:22 AM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 7.3.31
+-- Host: 127.0.0.1
+-- Generation Time: May 16, 2022 at 08:05 AM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `rekam-medis-bnn`
+-- Database: `skripsi-rekam-medis`
 --
 
 -- --------------------------------------------------------
@@ -79,14 +79,28 @@ CREATE TABLE `user` (
   `email` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `username` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `identity_type` enum('KTP','SIM') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `identity_number` char(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `religion` enum('islam','kristen','khatolik','hindu','budha') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `full_name` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `birthday` date DEFAULT NULL,
+  `birthplace` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `father_name` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mother_name` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ethnic_group` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `education` enum('NONE','SD','SLTP','SLTA','D3','S1','S2','S3') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `marital_status` tinyint(1) DEFAULT NULL,
+  `police_case` tinyint(1) DEFAULT NULL,
+  `profession` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `gender` enum('male','female') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `age` int(2) DEFAULT NULL,
   `blood` char(2) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `phone` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sender` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sender_name` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `photo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `push_notif` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `push_notif` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `status` enum('active','non-active') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'non-active',
   `registration_time` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -95,10 +109,10 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `role`, `email`, `username`, `password`, `full_name`, `gender`, `age`, `blood`, `phone`, `address`, `photo`, `push_notif`, `status`, `registration_time`) VALUES
-(1, 'admin', 'admin@rekammedis.com', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'ADMIN', 'male', NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL),
-(2, 'dokter', 'dokter@rekammedis.com', 'dokter', '9d2878abdd504d16fe6262f17c80dae5cec34440', 'Dokter', 'male', NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL),
-(3, 'pasien', 'pasien@rekammedis.com', 'pasien', '2d64647e07ad6d7fdc36818a3f93a0c8a054bd18', 'Pasien', 'male', 40, 'AB', NULL, NULL, NULL, NULL, 'active', '2022-02-20 21:56:13');
+INSERT INTO `user` (`id`, `role`, `email`, `username`, `password`, `identity_type`, `identity_number`, `religion`, `full_name`, `birthday`, `birthplace`, `father_name`, `mother_name`, `ethnic_group`, `education`, `marital_status`, `police_case`, `profession`, `gender`, `age`, `blood`, `phone`, `address`, `sender`, `sender_name`, `photo`, `push_notif`, `status`, `registration_time`) VALUES
+(1, 'admin', 'admin@rekammedis.com', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', NULL, NULL, NULL, 'ADMIN', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL),
+(2, 'dokter', 'dokter@rekammedis.com', 'dokter', '9d2878abdd504d16fe6262f17c80dae5cec34440', NULL, NULL, NULL, 'Dokter', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'active', NULL),
+(3, 'pasien', 'pasien@rekammedis.com', 'pasien', '2d64647e07ad6d7fdc36818a3f93a0c8a054bd18', NULL, NULL, NULL, 'Pasien', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'male', 40, 'AB', NULL, NULL, NULL, NULL, NULL, '{\"endpoint\":\"https://fcm.googleapis.com/fcm/send/c3McdAQivlQ:APA91bEf68H9PkvddQYW9utQBlBbNlk9vAIqIT1GOEz68IalTNPu5_VAxnBeHlH4gDoremFAoKPc10ZGMVRsPduaeQHlkAQtTUWPEwnrYPPeeNbWEY-pVXhqTYt4Zw8rPTd63jPW-2mK\",\"expirationTime\":null,\"keys\":{\"p256dh\":\"BMiY__PNbm0UZAvI3ezDEWLcl5ElERVPLnGSDBkuA9Fjug5YGCdgq67oJ6BeZLhmZO9EWSmI8iYYOlnoLbBo7yQ\",\"auth\":\"Xtompy90Oo6huh2jFtnkHw\"}}', 'active', '2022-02-20 21:56:13');
 
 --
 -- Indexes for dumped tables

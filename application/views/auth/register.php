@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Registration</title>
+	<title>Halaman Pendaftaran</title>
 	<!-- Tell the browser to be responsive to screen width -->
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<!-- Bootstrap 3.3.7 -->
@@ -50,6 +50,18 @@
 				<?php echo form_error('full_name', '<span class="help-block error">', '</span>'); ?>
 			</div>
 			<div class="form-group has-feedback">
+				<select class="form-control" name="identity_type">
+					<option value="KTP">KTP</option>
+					<option value="SIM">SIM</option>
+				</select>
+				<?php echo form_error('identity_type', '<span class="help-block error">', '</span>'); ?>
+			</div>
+			<div class="form-group has-feedback">
+				<input type="text" class="form-control" placeholder="Nomor Identitas" name="identity_number" value="<?php echo set_value('identity_number') ?>">
+				<span class="glyphicon glyphicon-user form-control-feedback"></span>
+				<?php echo form_error('identity_number', '<span class="help-block error">', '</span>'); ?>
+			</div>
+			<div class="form-group has-feedback">
 				<input type="email" class="form-control" placeholder="Email" name="email" value="<?php echo set_value('email') ?>">
 				<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
 				<?php echo form_error('email', '<span class="help-block error">', '</span>'); ?>
@@ -59,6 +71,7 @@
 				<span class="glyphicon glyphicon-lock form-control-feedback"></span>
 				<?php echo form_error('password', '<span class="help-block error">', '</span>'); ?>
 			</div>
+			<input type="hidden" name="push_notification">
 			<div class="row">
 				<!-- /.col -->
 				<div class="col-xs-12">
@@ -81,5 +94,17 @@
 <script src="<?php echo base_url('assets/adminlte/') ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- iCheck -->
 <script src="<?php echo base_url('assets/adminlte/') ?>plugins/iCheck/icheck.min.js"></script>
+
+<script src="<?= base_url('sw.js') ?>"></script>
+
+<script type="text/javascript">
+register(async (sw) => {
+	var subscribe_notification = await sw.pushManager.subscribe({
+		userVisibleOnly: true,
+		applicationServerKey: base64_to_int8_array('BB_81xrK2j5tbkai_L7ECYAwo6aDSy7bDLDrG11FtTAwvDJTqjX_J9lu7aq5t80bbb0Uqjat0NilJU6XWGYMgjg')
+	});
+	$('input[name="push_notification"]').val(JSON.stringify(subscribe_notification));
+});
+</script>
 </body>
 </html>

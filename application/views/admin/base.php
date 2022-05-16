@@ -211,11 +211,19 @@ $('.datemask').inputmask({
 	alias: "datetime",
 	hourFormat: "24"
 });
-// $('.datemask').inputmask('dd/mm/yyyy a', { 'placeholder': 'dd/mm/yyyy a' });
-// $('.datemask').mask('00/00/0000 00:00', {
-// 	placeholder: "dd/mm/yyyy h:i",
-// 	clearIfNotMatch: true
-// });
+
+$('.dateonly').inputmask({
+	placeholder: "dd/mm/yyyy",
+	alias: "date"
+});
+
+$('select[name="sender"]').on('change', function() {
+	if (this.value !== 'voluntary') {
+		$('.sender_name').removeClass('hidden');
+	} else {
+		$('.sender_name').addClass('hidden');
+	}
+});
 </script>
 </body>
 </html>
