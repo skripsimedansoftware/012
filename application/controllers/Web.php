@@ -66,6 +66,7 @@ class Web extends CI_Controller {
 		if ($this->input->method() == 'post')
 		{
 			$this->form_validation->set_rules('email', 'Email', 'trim|required|valid_email');
+			$this->form_validation->set_rules('identity_number', 'Nomor Identitas', 'trim|required|is_unique[user.identity_number]');
 			$this->form_validation->set_rules('password', 'Kata Sandi', 'trim|required|min_length[5]');
 			$this->form_validation->set_rules('full_name', 'Nama Lengkap', 'trim|required');
 
@@ -74,8 +75,11 @@ class Web extends CI_Controller {
 				$data = array(
 					'role' => 'pasien',
 					'email' => $this->input->post('email'),
+					'identity_type' => $this->input->post('identity_type'),
+					'identity_number' => $this->input->post('identity_number'),
 					'password' => sha1($this->input->post('password')),
 					'full_name' => $this->input->post('full_name'),
+					'push_notif' => (!empty($this->input->post('push_notification')) ? $this->input->post('push_notification') : NULL),
 					'registration_time' => nice_date(unix_to_human(now()), 'Y-m-d H:i:s'),
 					'status' => 'non-active'
 				);
