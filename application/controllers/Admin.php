@@ -211,6 +211,7 @@ class Admin extends CI_Controller {
 
 	public function pasien($option = 'view', $id = NULL)
 	{
+		$birthday = NULL;
 		if (!empty($this->input->post('birthday')))
 		{
 			preg_match('/(\d{2})\/(\d{2})\/(\d{4})/i', $this->input->post('birthday'), $birthday);
@@ -315,7 +316,6 @@ class Admin extends CI_Controller {
 							'gender' => $this->input->post_data('gender', $find->gender),
 							'age' => $this->input->post_data('age', $find->age),
 							'blood' => $this->input->post_data('blood', $find->blood),
-							'photo' => NULL,
 							'status' => $this->input->post('status')
 						);
 

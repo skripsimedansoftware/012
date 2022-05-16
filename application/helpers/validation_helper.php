@@ -27,5 +27,10 @@ function validateDate($date, $format = 'Y-m-d H:i:s')
     return $d && $d->format($format) == $date;
 }
 
+function exists_value($value, $default = '-')
+{
+	return (!empty($value)) ? $value : $default;
+}
+
 /* End of file validation_helper.php */
 /* Location : ./application/helpers/validation_helper.php */

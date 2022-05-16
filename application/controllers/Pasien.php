@@ -126,16 +126,38 @@ class Pasien extends CI_Controller {
 
 					if ($this->form_validation->run() == TRUE)
 					{
+						$birthday = NULL;
+
+						if (!empty($this->input->post('birthday')))
+						{
+							preg_match('/(\d{2})\/(\d{2})\/(\d{4})/i', $this->input->post('birthday'), $birthday);
+							$birthday = $birthday[3].'-'.$birthday[2].'-'.$birthday[1];
+						}
+
+						$find = $this->user->read(array('id' => $id))->row();
+
 						$data = array(
-							'role' => 'pasien',
-							'email' => $this->input->post('email'),
-							'username' => $this->input->post('username'),
-							'full_name' => $this->input->post('full_name'),
-							'gender' => $this->input->post('gender'),
-							'age' => $this->input->post('age'),
-							'blood' => $this->input->post('blood'),
-							'phone' => $this->input->post('phone'),
-							'address' => $this->input->post('address'),
+							'identity_type' => $this->input->post('identity_type'),
+							'identity_number' => $this->input->post('identity_number'),
+							'birthplace' => $this->input->post('birthplace'),
+							'birthday' => $birthday,
+							'father_name' => $this->input->post('father_name'),
+							'mother_name' => $this->input->post('mother_name'),
+							'religion' => $this->input->post('religion'),
+							'ethnic_group' => $this->input->post('ethnic_group'),
+							'education' => $this->input->post('education'),
+							'marital_status' => $this->input->post('marital_status'),
+							'profession_type' => $this->input->post('profession_type'),
+							'profession_name' => $this->input->post('profession_name'),
+							'police_case' => $this->input->post('police_case'),
+							'sender' => $this->input->post('sender'),
+							'sender_name' => $this->input->post('sender_name'),
+							'email' => $this->input->post_data('email', $find->email),
+							'username' => $this->input->post_data('username', $find->username),
+							'full_name' => $this->input->post_data('full_name', $find->full_name),
+							'gender' => $this->input->post_data('gender', $find->gender),
+							'age' => $this->input->post_data('age', $find->age),
+							'blood' => $this->input->post_data('blood', $find->blood),
 							'status' => $this->input->post('status')
 						);
 
